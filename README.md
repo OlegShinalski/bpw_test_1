@@ -27,16 +27,6 @@ This test task consist of 2 microservices (wallt and betting), which communicate
 
 There are 2 end points in this microservice
 * To send custom person to queue
-`POST http://localhost:8811/api/supplier/sent-person-to-queue`
-
-    Data format:
-    ```
-    {
-      "first_name":"ABC",
-      "last_name":"123",
-      "age": 44
-    }
-    ```
 * To enable/disable scheduler for sending predefined persons from test-data file.
     
     `GET http://localhost:8811/api/supplier/enable-scheduler?enabled=false`
@@ -58,33 +48,6 @@ There are 2 end points in this microservice
 * To see all persons from DB
 
     `GET http://localhost:8812/api/consumer/get-db-person-list`
-
-## Sender configuration
-
-* Configurations in `application.properties` file:
-    ```
-    test-data=classpath:test-data.properties
-    scheduler-period=2000
-    ```
-    * `test-data` is link to test data. See below.
-    * `scheduler-period` is period of scheduler sender, to send persons from predefined list.
-* Configurations in `test-data.properties` file:
-    ```
-    test-data.calculation-seed=0.5
-    
-    test-data.person[2].firstName=Dmitry
-    test-data.person[2].lastName=Ivanovich
-    test-data.person[2].age=4
-    ```
-    * `test-data.calculation-seed` is calculation seed from the test task document.
-    *  Configurations for predefined persons for scheduler.
-        ```
-          test-data.person[2].firstName=Dmitry
-          test-data.person[2].lastName=Ivanovich
-          test-data.person[2].age=4
-        ```
-        For now there is 7 persons
-
 
 ## How to run project
 
@@ -117,6 +80,104 @@ betting needs:
 
 * mySql (localhost:3306)
 
+### API
+## wallet
+`POST http://localhost:8082/account`	create account
+
+    Data format:
+    ```
+    {
+      "email":"aaa@bbb.ccc",
+      "amount":"123.45"
+    }
+    ```
+
+`POST http://localhost:8082/deposit/{accountId}`	deposit account
+
+    Data format:
+    ```
+    {
+      "summa":"123.45"
+    }
+    ```
+
+`POST http://localhost:8082/withdraw/{accountId}`	withfraw account
+
+    Data format:
+    ```
+    {
+      "summa":"123.45"
+    }
+    ```
+
+`GET http://localhost:8082/account/balance/{accountId}`	withfraw account
+
+`GET http://localhost:8082/account/{accountId}`	display account information by account Id
+
+`GET http://localhost:8082/account`	display account information by eMail
+
+    Data format:
+    ```
+    {
+      "email":"aaa@bbb.ccc"
+    }
+
+`GET http://localhost:8082/accounts}`	display all accounts
+
+`PUT http://localhost:8082/account`	update existing account
+
+    Data format:
+    ```
+    {
+	  "id":"123",
+      "email":"aaa@bbb.ccc",
+      "amount":"123.45"
+    }
+    ```
+
+## betting
+`GET http://localhost:8081/bets`	display all bets
+
+`GET http://localhost:8081/bets/{accountId}`	display all bets for account
+
+`POST http://localhost:8081/bet/place`	place a bet
+
+    Data format:
+    ```
+    {
+	  "accountId":"123",
+      "stake":"10.00", [
+	    {
+	      "id":"111",
+		  "odds":"1.8"
+		},
+	    {
+	      "id":"112",
+		  "odds":"1.75"
+		}
+	  ]
+    }
+    ```
+
+`POST http://localhost:8081/bet/placeAsync`	place a bet asynchronously
+
+
+    Data format:
+    ```
+    {
+	  "accountId":"123",
+      "stake":"10.00", [
+	    {
+	      "id":"111",
+		  "odds":"1.8"
+		},
+	    {
+	      "id":"112",
+		  "odds":"1.75"
+		}
+	  ]
+    }
+    ```
 
 ### Tests
 
