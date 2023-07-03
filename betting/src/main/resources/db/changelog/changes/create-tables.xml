@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="admin" id="betting-1">
+        <createTable tableName="bet">
+            <column autoIncrement="true" name="id" type="BigInt">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_id" type="BigInt">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stake" type="decimal(38,2)"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="state" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="win_state" type="VARCHAR(10)">
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="bet"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="admin" id="betting-2">
+        <createTable tableName="bet_item">
+            <column autoIncrement="true" name="id" type="BigInt">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="bet_item_id" type="BigInt">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bet_id" type="BigInt">
+                <constraints nullable="false"/>
+            </column>
+            <column name="odds" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="bet_item"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

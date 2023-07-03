@@ -1,0 +1,57 @@
+version: '3.9'
+
+networks:
+  default:
+
+services:
+  db:
+    image: mysql
+    container_name: bpw_mysql
+    volumes:
+      - "./.db:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -P 3306 -proot | grep 'mysqld is alive' || exit 1"]
+      interval: 10s
+      timeout: 30s
+      retries: 10
+  wallet:
+    build:
+      context: wallet
+      dockerfile: Dockerfile
+    container_name: wallet
+    ports:
+      - 8082:8082
+      - 50051:50051
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bpw_mysql:3306/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+
+
+  betting:
+    build:
+      context: betting
+      dockerfile: Dockerfile
+    container_name: betting
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://bpw_mysql:3306/mydb
+      GRPC_CLIENT_MYWALLETSERVICE_ADDRESS: static://wallet:50051
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
