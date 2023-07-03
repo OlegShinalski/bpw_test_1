@@ -34,12 +34,6 @@ public class WalletController {
         return CompletableFuture.supplyAsync(() -> walletService.create(account).getId());
     }
 
-    @GetMapping("/account/balance/{id}")
-    @ResponseBody
-    public CompletableFuture<BigDecimal> getAccountBalance(@PathVariable Long id) {
-        return CompletableFuture.supplyAsync(() -> walletService.getById(id).getAmount());
-    }
-
     @GetMapping("/account/operations/{id}")
     @ResponseBody
     public CompletableFuture<List<AccountOperationDto>> getAccountOperations(@PathVariable Long id) {
@@ -62,7 +56,11 @@ public class WalletController {
         );
     }
 
-    // For debug
+    @GetMapping("/account/balance/{id}")
+    @ResponseBody
+    public CompletableFuture<BigDecimal> getAccountBalance(@PathVariable Long id) {
+        return CompletableFuture.supplyAsync(() -> walletService.getById(id).getAmount());
+    }
     @GetMapping("/accounts")
     @ResponseBody
     public CompletableFuture<List<AccountDto>> getAccounts() {

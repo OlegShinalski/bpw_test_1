@@ -30,3 +30,9 @@ replay_pid*
 build
 
 .db
+.idea/vcs.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/modules/betting/data.bpw_test.betting.main.iml
+.idea/uiDesigner.xml
