@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class BetSettlementController {
 
-    private final BetService betService;
     private final BetSettlementService betSettlementService;
 
     @PostMapping("/bet/settle")

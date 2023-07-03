@@ -1,6 +1,5 @@
 package com.example.betpawa.service;
 
-import com.example.betpawa.mapper.BetMapper;
 import com.example.betpawa.model.BetDto;
 import com.example.betpawa.model.BetListItemDto;
 import com.example.betpawa.model.PlaceBetDto;
@@ -21,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +55,22 @@ class BetServiceTest {
     void shouldFindAllBets() {
         Bet bet = Bet.builder().id(1L).accountId(123L).build();
 
+        given(betRepository.findAll())
+                .willReturn(Lists.newArrayList(bet));
+
+        List<BetListItemDto> result = betService.findAllBets(null);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getAccountId()).isEqualTo(123L);
+        assertThat(result.get(0).getId()).isEqualTo(1L);
+        verify(betRepository).findAll();
+        verify(betRepository, never()).findByAccountId(any());
+    }
+
+    @Test
+    void shouldFindAllBetsByAccountId() {
+        Bet bet = Bet.builder().id(1L).accountId(123L).build();
+
         given(betRepository.findByAccountId(123L))
                 .willReturn(Lists.newArrayList(bet));
 
@@ -64,6 +80,7 @@ class BetServiceTest {
         assertThat(result.get(0).getAccountId()).isEqualTo(123L);
         assertThat(result.get(0).getId()).isEqualTo(1L);
         verify(betRepository).findByAccountId(123L);
+        verify(betRepository, never()).findAll();
     }
 
     @Test

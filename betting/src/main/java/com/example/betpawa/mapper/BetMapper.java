@@ -1,11 +1,11 @@
 package com.example.betpawa.mapper;
 
-import static java.util.stream.Collectors.toList;
-
 import com.example.betpawa.model.BetDto;
 import com.example.betpawa.model.PlaceBetDto;
 import com.example.betpawa.persistence.entity.Bet;
 import com.example.betpawa.persistence.entity.BetItem;
+
+import static java.util.stream.Collectors.toList;
 
 public class BetMapper {
 
