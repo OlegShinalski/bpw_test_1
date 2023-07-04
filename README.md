@@ -146,7 +146,8 @@ betting needs:
     ```
     {
 	  "accountId":"123",
-      "stake":"10.00", [
+      "stake":"10.00",
+	  "items":[
 	    {
 	      "id":"111",
 		  "odds":"1.8"
@@ -167,7 +168,7 @@ betting needs:
     {
 	  "accountId":"123",
       "stake":"10.00", [
-	    {
+	    "items":{
 	      "id":"111",
 		  "odds":"1.8"
 		},
@@ -178,6 +179,18 @@ betting needs:
 	  ]
     }
     ```
+	
+`POST http://localhost:8081/bet/settle` settle the bet
+
+
+    Data format:
+    ```
+    {
+      "betItemId":112,
+      "state":"WIN"
+    }
+    ```
+
 
 ### Tests
 
@@ -187,3 +200,5 @@ Also controller tests are implemented. For couple of them running mySql is requi
 ### TODO
 
 * Add swagger for easy testing
+* Build project inside docker container (without local installed Java, Gradle etc )
+* Add gRpc client unit tests`

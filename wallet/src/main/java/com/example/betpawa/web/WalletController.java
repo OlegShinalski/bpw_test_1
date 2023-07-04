@@ -7,21 +7,24 @@ import com.example.betpawa.model.AmountDto;
 import com.example.betpawa.persistence.entity.Account;
 import com.example.betpawa.service.WalletService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 @RestController
+@Validated
 public class WalletController {
 
     private final WalletService walletService;
 
     @PostMapping("/account")
     @ResponseBody
-    public CompletableFuture<Long> createAccount(@RequestBody Account account) {
+    public CompletableFuture<Long> createAccount(@Valid @RequestBody Account account) {
         return CompletableFuture.supplyAsync(() -> walletService.create(account).getId());
     }
 
