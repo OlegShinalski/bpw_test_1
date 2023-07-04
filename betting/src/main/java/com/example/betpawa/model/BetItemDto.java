@@ -1,13 +1,12 @@
 package com.example.betpawa.model;
 
-import java.math.BigDecimal;
-
 import com.example.betpawa.model.enums.StateType;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -21,6 +20,7 @@ public class BetItemDto {
 
     private BigDecimal odds;
 
+    @Builder.Default
     private StateType state = StateType.PENDING;
 
 }
