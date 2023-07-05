@@ -1,21 +1,19 @@
 package com.example.betpawa.service;
 
-import static com.example.betpawa.mapper.BetMapper.mapToDto;
-
-import java.math.BigDecimal;
-import java.util.concurrent.CompletableFuture;
-
-import org.springframework.stereotype.Service;
-
 import com.betpawa.wallet.AmountRequest;
 import com.betpawa.wallet.AmountResponse;
 import com.betpawa.wallet.WalletInteractionServiceGrpc;
 import com.example.betpawa.exception.BusinessExceptionUtil;
 import com.example.betpawa.model.BetDto;
 import com.example.betpawa.persistence.entity.Bet;
-
 import lombok.SneakyThrows;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
+
+import static com.example.betpawa.mapper.BetMapper.mapToDto;
 
 @Service
 public class BetWalletService {
@@ -26,7 +24,7 @@ public class BetWalletService {
     @GrpcClient("myWalletService")
     private WalletInteractionServiceGrpc.WalletInteractionServiceStub walletStubAsync;
 
-    public CompletableFuture<Bet> placeBetAsync(Bet bet) {
+    public CompletableFuture<BetDto> placeBetAsync(Bet bet) {
         AmountRequest request = AmountRequest.newBuilder()
                 .setAccountId(bet.getAccountId())
                 .setAmount(bet.getStake().toString())

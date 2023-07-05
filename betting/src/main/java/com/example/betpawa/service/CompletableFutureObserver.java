@@ -1,13 +1,12 @@
 package com.example.betpawa.service;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-
 import com.example.betpawa.exception.BusinessException;
 import com.example.betpawa.exception.BusinessExceptionUtil;
-
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 @Slf4j
 public class CompletableFutureObserver<ResponseType, ReturnType> implements StreamObserver<ResponseType> {

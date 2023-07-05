@@ -1,22 +1,20 @@
 package com.example.betpawa.service;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-
 import com.example.betpawa.mapper.BetMapper;
 import com.example.betpawa.model.BetDto;
 import com.example.betpawa.model.BetListItemDto;
 import com.example.betpawa.model.PlaceBetDto;
 import com.example.betpawa.persistence.entity.Bet;
 import com.example.betpawa.persistence.repositary.BetRepositary;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -49,7 +47,7 @@ public class BetService {
                 .collect(Collectors.toList());
     }
 
-    public CompletableFuture<Bet> placeBetAsync(PlaceBetDto betDto) {
+    public CompletableFuture<BetDto> placeBetAsync(PlaceBetDto betDto) {
         Bet bet = betRepository.save(BetMapper.mapToEntity(betDto));
         return betWalletService.placeBetAsync(bet);
     }

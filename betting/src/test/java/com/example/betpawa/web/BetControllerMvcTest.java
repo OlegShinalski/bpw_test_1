@@ -4,7 +4,6 @@ import com.example.betpawa.TestUtils;
 import com.example.betpawa.model.BetDto;
 import com.example.betpawa.model.BetListItemDto;
 import com.example.betpawa.model.PlaceBetDto;
-import com.example.betpawa.persistence.entity.Bet;
 import com.example.betpawa.service.BetService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
@@ -36,10 +35,10 @@ public class BetControllerMvcTest {
 
     @Test
     public void shouldPlaceBetAsync() throws Exception {
-        Bet bet = Bet.builder().id(1L).accountId(123L).build();
+        BetDto betDto = BetDto.builder().id(1L).accountId(123L).build();
 
         given(service.placeBetAsync(any(PlaceBetDto.class)))
-                .willReturn(CompletableFuture.completedFuture(bet));
+                .willReturn(CompletableFuture.completedFuture(betDto));
 
         MvcResult mvcResult = this.mockMvc.perform(
                         MockMvcRequestBuilders
@@ -53,7 +52,7 @@ public class BetControllerMvcTest {
 
         mockMvc.perform(asyncDispatch(mvcResult))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo(TestUtils.asJsonString(bet))));
+                .andExpect(content().string(equalTo(TestUtils.asJsonString(betDto))));
     }
 
     @Test

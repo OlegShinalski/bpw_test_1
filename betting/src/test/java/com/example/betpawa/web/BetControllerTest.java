@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,16 +52,15 @@ class BetControllerTest {
         Long id = 12345L;
 
         PlaceBetDto dto = PlaceBetDto.builder().accountId(id).stake(BigDecimal.ONE).build();
-        Bet bet = Bet.builder().accountId(id).build();
+        BetDto betDto = BetDto.builder().id(1L).accountId(id).build();
 
         given(service.placeBetAsync(dto))
-                .willReturn(CompletableFuture.completedFuture(bet));
+                .willReturn(CompletableFuture.completedFuture(betDto));
 
-        Bet result = controller.placeBetAsync(dto).get();
+        BetDto result = controller.placeBetAsync(dto).get();
 
         verify(service).placeBetAsync(dto);
-        assertThat(result.getAccountId()).isEqualTo(id);
-        assertThat(result.getState()).isEqualTo(BetStateType.PENDING);
+        assertThat(result).isEqualTo(betDto);
     }
 
     @SneakyThrows
@@ -91,7 +89,7 @@ class BetControllerTest {
         given(service.findAllBets(id))
                 .willReturn(Lists.newArrayList(dto));
 
-        List<BetListItemDto> result = controller.findAllBets(id).get();
+        controller.findAllBets(id).get();
 
         verify(service).findAllBets(id);
     }
